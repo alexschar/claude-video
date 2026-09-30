@@ -23,6 +23,9 @@ from whisper import load_api_key, transcribe_video  # noqa: E402
 
 
 def main() -> int:
+    # Windows pipes default to cp1252, which cannot encode the report's arrows.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
     ap = argparse.ArgumentParser(
         prog="watch",
         description="Download a video, extract auto-scaled frames, and surface the transcript.",
